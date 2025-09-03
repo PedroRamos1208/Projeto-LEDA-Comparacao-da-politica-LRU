@@ -71,20 +71,19 @@ public class ArvoreSplay{
 
 		moveToRoot(lru);
 
-		if(lru.left == null){ 
-			this.root = lru.right;
-			if(this.root != null) this.root.parent = null;
-		}else if(lru.right == null){
-		        this.root = lru.left;
-		        if(this.root != null) this.root.parent = null;
-		}else{
-			Node sucessor = min(lru.right);
-			moveToRoot(sucessor);
-			sucessor.left = lru.left;
-			if(sucessor.left != null) sucessor.left.parent = sucessor;
-			this.root = sucessor;
-			this.root.parent = null;
-		}
+		Node leftSub = lru.left;
+		Node rightSub = lru.right;
+
+		if (leftSub != null) leftSub.parent = null;
+    		if (rightSub != null) rightSub.parent = null;
+    		
+		if (leftSub == null) this.root = rightSub;
+		else {
+        		this.root = leftSub;       
+        		Node maxLeft = max(leftSub);
+        	     	maxLeft.right = rightSub;
+        		if (rightSub != null) rightSub.parent = maxLeft;
+    		}
 		this.size--;
 		return lru;
         }
@@ -97,6 +96,15 @@ public class ArvoreSplay{
                 if(node.left == null) return node;
                 else return min(node.left);
         }
+
+	public Node max(){
+		if(isEmpty()) return null;
+		else return max(this.root);
+	}
+	private Node max(Node node){
+		if(node.right == null) return node;
+		else return max(node.right);
+	}
 
 	public void moveToRoot(Node node){
 		if(node == null || node == this.root) return;
