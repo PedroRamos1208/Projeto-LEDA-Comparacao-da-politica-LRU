@@ -66,10 +66,11 @@ public class ArvoreSplay{
 	}
 
 	 public Node remove(){
-		Node lru = min();
-		if(lru == null) return null;
+		if(isEmpty()) return null;
 
+		Node lru = min();
 		moveToRoot(lru);
+		Node removed = this.root;
 
 		Node leftSub = this.root.left;
 		Node rightSub = this.root.right;
@@ -77,15 +78,14 @@ public class ArvoreSplay{
 		if (leftSub != null) leftSub.parent = null;
     		if (rightSub != null) rightSub.parent = null;
 
-		Node removed = this.root;
     		
 		if (leftSub == null) this.root = rightSub;
-		else if(rightSub == null) this.root = leftSub;
 	        else{       
         		Node maxLeft = max(leftSub);
 			moveToRoot(maxLeft);
         	     	this.root.right = rightSub;
         		rightSub.parent = this.root;
+			if(rightSub != null) rightSub.parent = this.root;
     		}
 		this.size--;
 		return removed;
