@@ -195,15 +195,15 @@ public class ArvoreSplay{
 
 		return y;
 	}
-}
 
-class Node{
-	int value;
-	Node left;
-	Node right;
-	Node parent;
+	private static class Node{
+        	int value;
+        	Node left;
+        	Node right;
+        	Node parent;
 
-	public Node(int v){
-		this.value = v;
+        	public Node(int v){
+               		this.value = v;
+        	}
 	}
 }
