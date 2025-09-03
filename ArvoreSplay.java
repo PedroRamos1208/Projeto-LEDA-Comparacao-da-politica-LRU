@@ -76,16 +76,16 @@ public class ArvoreSplay{
 		Node rightSub = this.root.right;
 
 		if (leftSub != null) leftSub.parent = null;
-    		if (rightSub != null) rightSub.parent = null;
+        if (rightSub != null) rightSub.parent = null;
 
     		
 		if (leftSub == null) this.root = rightSub;
-	        else{       
+	    else{       
         		Node maxLeft = max(leftSub);
-			moveToRoot(maxLeft);
-        	     	this.root.right = rightSub;
+			    moveToRoot(maxLeft);
+        	    this.root.right = rightSub;
 			if(rightSub != null) rightSub.parent = this.root;
-    		}
+    	}
 		this.size--;
 		return removed;
         }
