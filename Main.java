@@ -1,8 +1,4 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -117,7 +113,7 @@ public class Main{
                         }
 
 			Random rand = new Random();
-			for(int j = 0; i < 15; j++){
+			for(int j = 0; j < 15; j++){
 				int elementoAleatorio = elementos.get(rand.nextInt(elementos.size()));
 				long inicio = System.nanoTime();
 				tree.search(elementoAleatorio);
