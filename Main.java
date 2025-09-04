@@ -58,83 +58,92 @@ public class Main {
     }
 
     private static void executarTestesDeBusca(int[] cargas) {
-        for (int carga : cargas) {
-            long somaPresente = 0, somaAusente = 0, somaUniforme = 0, somaScan = 0, somaZipf = 0;
-            ArrayList<Integer> elementos = lerArquivo("cargas/saida.txt", carga);
+    for (int carga : cargas) {
+        long somaPresente = 0, somaAusente = 0, somaUniforme = 0, somaScan = 0, somaZipf = 0;
+        ArrayList<Integer> elementos = lerArquivo("cargas/saida.txt", carga);
 
-            if (elementos.isEmpty()) {
-                System.out.println("Carga " + carga + " vazia. Pulando.");
-                continue;
-            }
+        if (elementos.isEmpty()) {
+            System.out.println("Carga " + carga + " vazia. Pulando.");
+            continue;
+        }
 
-            int primeiroNum = elementos.get(0);
-            int numInexistente = -1;
-            Random rand = new Random();
+        int primeiroNum = elementos.get(0);
+        int numInexistente = -1;
+        Random rand = new Random();
 
+        int n = elementos.size();
+        double[] probs = calcularProbabilidadesZipf(n, 1.0);
+
+        for (int j = 0; j < NUM_REPETICOES; j++) {
             ArvoreSplay tree = new ArvoreSplay(carga);
-            for (int numero : elementos) {
-                tree.add(numero);
-            }
+            for (int numero : elementos) tree.add(numero);
 
-            for (int j = 0; j < NUM_REPETICOES; j++) {
-                long inicio = System.nanoTime();
-                tree.search(primeiroNum);
-                long fim = System.nanoTime();
-                somaPresente += (fim - inicio);
-            }
+            long inicio = System.nanoTime();
+            tree.search(primeiroNum);
+            long fim = System.nanoTime();
+            somaPresente += (fim - inicio);
+        }
 
-            for (int j = 0; j < NUM_REPETICOES; j++) {
-                long inicio = System.nanoTime();
-                tree.search(numInexistente);
-                long fim = System.nanoTime();
-                somaAusente += (fim - inicio);
-            }
+        for (int j = 0; j < NUM_REPETICOES; j++) {
+            ArvoreSplay tree = new ArvoreSplay(carga);
+            for (int numero : elementos) tree.add(numero);
 
-            for (int j = 0; j < NUM_REPETICOES; j++) {
-                int elementoAleatorio = elementos.get(rand.nextInt(elementos.size()));
-                long inicio = System.nanoTime();
-                tree.search(elementoAleatorio);
-                long fim = System.nanoTime();
-                somaUniforme += (fim - inicio);
-            }
+            long inicio = System.nanoTime();
+            tree.search(numInexistente);
+            long fim = System.nanoTime();
+            somaAusente += (fim - inicio);
+        }
 
-            for (int j = 0; j < NUM_REPETICOES; j++) {
-                long inicio = System.nanoTime();
-                for (int numero : elementos) {
-                    tree.search(numero);
-                }
-                long fim = System.nanoTime();
-                somaScan += (fim - inicio);
-            }
+        for (int j = 0; j < NUM_REPETICOES; j++) {
+            ArvoreSplay tree = new ArvoreSplay(carga);
+            for (int numero : elementos) tree.add(numero);
 
-            int n = elementos.size();
-            double[] probs = calcularProbabilidadesZipf(n, 1.0);
-            for (int j = 0; j < NUM_REPETICOES; j++) {
-                long inicio = System.nanoTime();
-                for (int acesso = 0; acesso < n; acesso++) {
-                    double r = rand.nextDouble();
-                    double acumulado = 0.0;
-                    for (int k = 0; k < n; k++) {
-                        acumulado += probs[k];
-                        if (r <= acumulado) {
-                            tree.search(elementos.get(k));
-                            break;
-                        }
+            int elementoAleatorio = elementos.get(rand.nextInt(elementos.size()));
+            long inicio = System.nanoTime();
+            tree.search(elementoAleatorio);
+            long fim = System.nanoTime();
+            somaUniforme += (fim - inicio);
+        }
+
+        for (int j = 0; j < NUM_REPETICOES; j++) {
+            ArvoreSplay tree = new ArvoreSplay(carga);
+            for (int numero : elementos) tree.add(numero);
+
+            long inicio = System.nanoTime();
+            for (int numero : elementos) tree.search(numero);
+            long fim = System.nanoTime();
+            somaScan += (fim - inicio);
+        }
+
+        for (int j = 0; j < NUM_REPETICOES; j++) {
+            ArvoreSplay tree = new ArvoreSplay(carga);
+            for (int numero : elementos) tree.add(numero);
+
+            long inicio = System.nanoTime();
+            for (int acesso = 0; acesso < n; acesso++) {
+                double r = rand.nextDouble();
+                double acumulado = 0.0;
+                for (int k = 0; k < n; k++) {
+                    acumulado += probs[k];
+                    if (r <= acumulado) {
+                        tree.search(elementos.get(k));
+                        break;
                     }
                 }
-                long fim = System.nanoTime();
-                somaZipf += (fim - inicio);
             }
-
-            gravarResultado("resultadosTestes/buscaPresenteSplay.txt", somaPresente / NUM_REPETICOES);
-            gravarResultado("resultadosTestes/buscaNaoPresenteSplay.txt", somaAusente / NUM_REPETICOES);
-            gravarResultado("resultadosTestes/buscaUniformeSplay.txt", somaUniforme / NUM_REPETICOES);
-            gravarResultado("resultadosTestes/buscaScanSplay.txt", somaScan / NUM_REPETICOES);
-            gravarResultado("resultadosTestes/buscaZipfSplay.txt", somaZipf / NUM_REPETICOES);
-            
-            System.out.println("Carga " + carga + " concluída.");
+            long fim = System.nanoTime();
+            somaZipf += (fim - inicio);
         }
+
+        gravarResultado("resultadosTestes/buscaPresenteSplay.txt", somaPresente / NUM_REPETICOES);
+        gravarResultado("resultadosTestes/buscaNaoPresenteSplay.txt", somaAusente / NUM_REPETICOES);
+        gravarResultado("resultadosTestes/buscaUniformeSplay.txt", somaUniforme / NUM_REPETICOES);
+        gravarResultado("resultadosTestes/buscaScanSplay.txt", somaScan / NUM_REPETICOES);
+        gravarResultado("resultadosTestes/buscaZipfSplay.txt", somaZipf / NUM_REPETICOES);
+
+        System.out.println("Carga " + carga + " concluída.");
     }
+}
 
     private static double[] calcularProbabilidadesZipf(int n, double s) {
         double[] probs = new double[n];
