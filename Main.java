@@ -11,6 +11,7 @@ public class Main {
 
         executarTesteInsercaoCacheNaoCheio(cargasLimitadas);
         executarTesteInsercaoCacheCheio(cargas);
+        executarTesteInsercaoRepetidos(cargasLimitadas);
         executarTestesDeBusca(cargasLimitadas);
     }
 
@@ -56,6 +57,41 @@ public class Main {
             System.out.println("Carga " + carga + " concluída.");
         }
     }
+
+    private static void executarTesteInsercaoRepetidos(int[] cargas) {
+    Random rand = new Random();
+
+    for (int carga : cargas) {
+        long soma = 0;
+        ArrayList<Integer> elementos = lerArquivo("cargas/saida.txt", carga);
+
+        if (elementos.isEmpty()) continue;
+
+        int qtdInicial = (int) (carga * 0.9);  
+        int qtdRepetidos = carga - qtdInicial; 
+
+        for (int j = 0; j < NUM_REPETICOES; j++) {
+            ArvoreSplay tree = new ArvoreSplay(carga);
+            long inicio = System.nanoTime();
+
+            for (int i = 0; i < qtdInicial; i++) {
+                tree.add(elementos.get(i));
+            }
+
+            for (int r = 0; r < qtdRepetidos; r++) {
+                int repetido = elementos.get(rand.nextInt(qtdInicial));
+                tree.add(repetido);
+            }
+
+            long fim = System.nanoTime();
+            soma += (fim - inicio);
+        }
+
+        long media = soma / NUM_REPETICOES;
+        gravarResultado("resultadosTestes/insercaoRepetidosSplay.txt", media);
+        System.out.println("Carga " + carga + " (inserção com repetidos) concluída.");
+    }
+}
 
     private static void executarTestesDeBusca(int[] cargas) {
     for (int carga : cargas) {
