@@ -51,8 +51,16 @@ public class ArvoreSplay{
 	}
 
 	public Node search(int v){
-		if(isEmpty()) return null;
-		else return search(this.root, v);
+		if(isEmpty()){
+			add(v);
+			return this.root;
+		}
+		Node node = search(this.root, v);
+		if(node == null){
+			add(v);
+			return this.root;
+		}
+		return node;
 	}
 	private Node search(Node node, int v){
 		if(node == null) return null;
