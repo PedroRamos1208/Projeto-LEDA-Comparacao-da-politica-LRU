@@ -59,9 +59,11 @@ O cache terá tamanho equivalente a 10% da carga usada, garantindo que mais elem
 5.6 Testes realizados 
 Cada operação será executada 15 vezes, considerando a média de tempo:
 Inserção simples em cache não cheio.
+Inserção em cache cheio (com remoção).
+Inserção de elementos repetidos.
+Inserção de elementos ordenados.
 Busca de elementos já presentes (hit).
 Busca de elementos não presentes (miss).
-Inserção em cache cheio (com remoção).
 Cenários com diferentes padrões de acesso (Uniforme, Scan, Zipf).
 
 5.7 Métricas coletadas
