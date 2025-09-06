@@ -59,9 +59,11 @@ O cache terá tamanho equivalente a 10% da carga usada, garantindo que mais elem
 5.6 Testes realizados 
 Cada operação será executada 15 vezes, considerando a média de tempo:
 Inserção simples em cache não cheio.
+Inserção em cache cheio (com remoção).
+Inserção de elementos repetidos.
+Inserção de elementos ordenados.
 Busca de elementos já presentes (hit).
 Busca de elementos não presentes (miss).
-Inserção em cache cheio (com remoção).
 Cenários com diferentes padrões de acesso (Uniforme, Scan, Zipf).
 
 5.7 Métricas coletadas
@@ -78,3 +80,4 @@ Análise das causas dos resultados, com base na complexidade das estruturas.
 6. Conclusão
 Este plano de experimento fornecerá base sólida para avaliar a eficiência do LRU implementado com Árvore Splay e com LinkedList + HashMap, destacando vantagens, limitações e cenários ideais para cada abordagem em ambientes que demandam alta performance.
 
+Documentação: [Desempenho Comparativo de Algoritmos LRU: Splay Tree vs. HashMap + Doubly LinkedList ](https://docs.google.com/document/d/1We2hKwkE3jNkjIwRwwa8mKynxAmhCpwlJa7rPfpjftg/edit?tab=t.0)
