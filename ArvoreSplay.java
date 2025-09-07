@@ -6,36 +6,31 @@ public class ArvoreSplay{
 		return this.root == null;
 	}
 
-	public Node add(int v, long timeStamp){
-		Node newNode = new Node(v, timeStamp);
+	public Node add(int v, long timeStamp) {
+        Node newNode = new Node(v, timeStamp);
+        if (isEmpty()) {
+            root = newNode;
+            size++;
+            return newNode;
+        }
 
-		if(isEmpty()){
-			this.root = newNode;
-			this.size++;
-			return newNode;
-		}
+        Node current = root;
+        Node parent = null;
 
-		Node aux = this.root;
-		while(true){
-			if(v < aux.value){
-				if(aux.left == null){
-					aux.left = newNode;
-					newNode.parent = aux;
-					moveToRoot(newNode);
-					this.size++;
-					return newNode;
-				}else aux = aux.left;
-			}else{
-				if(aux.right == null){
-					aux.right = newNode;
-					newNode.parent = aux;
-					moveToRoot(newNode);
-					this.size++;
-					return newNode;
-				}else aux = aux.right;
-			}
-		}
-	}
+        while (current != null) {
+            parent = current;
+            if (v < current.value) current = current.left;
+            else current = current.right;
+        }
+
+        newNode.parent = parent;
+        if (v < parent.value) parent.left = newNode;
+        else parent.right = newNode;
+
+        moveToRoot(newNode);
+        size++;
+        return newNode;
+    }
 
 
 	public Node remove(Node node){
@@ -79,78 +74,62 @@ public class ArvoreSplay{
 	}
 
 	public void moveToRoot(Node node) {
-    if (node == null || node == root) return;
+        if (node == null || node == root) return;
 
-    while (node != root && node.parent != null) {
-        Node p = node.parent;
-        Node g = p.parent;
+        while (node.parent != null) {
+            Node p = node.parent;
+            Node g = p.parent;
 
-        if (g == null) {
-            if (p.left == node) rot_dir(p);
-            else if (p.right == node) rot_esq(p);
-        } else {
-            if (g.left == p && p.left == node) {
-                rot_dir(g);
-                rot_dir(p);
+            if (g == null) {
+                if (p.left == node) rotDir(p);
+                else rotEsq(p);
+            } else if (g.left == p && p.left == node) {
+                rotDir(g);
+                rotDir(p);
             } else if (g.right == p && p.right == node) {
-                rot_esq(g);
-                rot_esq(p);
+                rotEsq(g);
+                rotEsq(p);
             } else if (g.left == p && p.right == node) {
-                rot_esq(p);
-                rot_dir(g);
+                rotEsq(p);
+                rotDir(g);
             } else if (g.right == p && p.left == node) {
-                rot_dir(p);
-                rot_esq(g);
-            } else {
-                break;
+                rotDir(p);
+                rotEsq(g);
             }
         }
     }
-}
 
-	public Node rot_esq(Node node){
-		Node y = node.right;
-		if(y == null) return node;
-		Node ey = y.left;
-		Node parent = node.parent;
+	private void rotEsq(Node x) {
+        Node y = x.right;
+        if (y == null) return;
 
-		if(parent != null){
-			if(parent.left == node) parent.left = y;
-			else parent.right = y;
-		}
+        x.right = y.left;
+        if (y.left != null) y.left.parent = x;
 
-		y.left = node;
-		y.parent = parent;
-		node.right = ey;
-		node.parent = y;
-		if(ey != null) ey.parent = node;
+        y.left = x;
+        y.parent = x.parent;
+        if (x.parent == null) root = y;
+        else if (x.parent.left == x) x.parent.left = y;
+        else x.parent.right = y;
 
-		if(y.parent == null) this.root = y;
+        x.parent = y;
+    }
 
-		return y;
-	}
+    private void rotDir(Node x) {
+        Node y = x.left;
+        if (y == null) return;
 
-	public Node rot_dir(Node node){
-		Node y = node.left;
-		if(y == null) return node;
-		Node dy = y.right;
-		Node parent = node.parent;
+        x.left = y.right;
+        if (y.right != null) y.right.parent = x;
 
-		if(parent != null){
-			if(parent.left == node) parent.left = y;
-			else parent.right = y;
-		}
+        y.right = x;
+        y.parent = x.parent;
+        if (x.parent == null) root = y;
+        else if (x.parent.left == x) x.parent.left = y;
+        else x.parent.right = y;
 
-		y.right = node;
-		y.parent = parent;
-		node.left = dy;
-		node.parent = y;
-		if(dy != null) dy.parent = node;
-
-		if(y.parent == null) this.root = y;
-
-		return y;
-	}
+        x.parent = y;
+    }
 
 	public int size(){
 		return this.size;
