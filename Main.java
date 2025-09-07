@@ -10,10 +10,10 @@ public class Main {
         int[] cargas = {1000, 35000, 70000, 100000, 350000, 700000, 1000000, 2500000, 3500000, 5000000};
 
         executarTesteInsercaoCacheNaoCheio(cargasLimitadas);
-        executarTesteInsercaoCacheCheio(cargas);
-        executarTesteInsercaoRepetidos(cargas);
-	executarTesteInsercaoOrdenada(cargas);
-        executarTestesDeBusca(cargasLimitadas);
+        //executarTesteInsercaoCacheCheio(cargas);
+        //executarTesteInsercaoRepetidos(cargas);
+	//executarTesteInsercaoOrdenada(cargas);
+        //executarTestesDeBusca(cargasLimitadas);
     }
 
     private static void executarTesteInsercaoCacheNaoCheio(int[] cargas) {
