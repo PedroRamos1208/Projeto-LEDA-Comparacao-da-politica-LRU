@@ -46,7 +46,7 @@ public class LRUSplay{
 	}
 
 	public void checaContMenor(){
-		while(!this.timeMap.containsKey(this.contMenor)) this.contMenor++;
+		while(!this.timeMap.containsKey(this.contMenor) && contMenor < contGlobal) this.contMenor++;
 	}
 
 	public Integer get(int v){ 
@@ -65,8 +65,7 @@ public class LRUSplay{
 		return this.timeMap.get(this.contGlobal-1).value;
 	}
 
-	public int getLRU() {
-        if (timeMap.isEmpty()) return -1;
+	 public int getLRU() {
         checaContMenor();
         ArvoreSplay.Node node = timeMap.get(contMenor);
         return node != null ? node.value : -1;
