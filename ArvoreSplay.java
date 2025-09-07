@@ -75,7 +75,7 @@ public class ArvoreSplay {
 
             if (g == null) { 
                 if (p.left == node) rotDir(p);
-                else rot_Esq(p);
+                else rotEsq(p);
             } else if (g.left == p && p.left == node) {
                 rotDir(g);
                 rotDir(p);
