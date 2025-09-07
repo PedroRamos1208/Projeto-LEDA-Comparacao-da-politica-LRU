@@ -24,7 +24,7 @@ def plot_cache_lines(title, cargas, lru_linked_list_data, splay_tree_data):
     
     # Plota as taxas de acerto no primeiro eixo (ax1)
     line1, = ax1.plot(x, lru_hits, marker='o', color='darkblue', label='Hit LinkedList+HashMap')
-    line2, = ax1.plot(x, splay_hits, marker='o', color='darkorange', label='Hit Splay')
+    line2, = ax1.plot(x, splay_hits, marker='o', color='darkpurple', label='Hit Splay')
     
     # Configura o primeiro eixo
     ax1.set_xlabel('Carga')  # Rótulo do eixo X
@@ -38,7 +38,7 @@ def plot_cache_lines(title, cargas, lru_linked_list_data, splay_tree_data):
     
     # Plota os tempos de execução no segundo eixo (ax2) com escala logarítmica
     line3, = ax2.plot(x, lru_time, marker='x', color='blue', linestyle='--', label='Tempo LinkedList+HashMap')
-    line4, = ax2.plot(x, splay_time, marker='x', color='orange', linestyle='--', label='Tempo Splay')
+    line4, = ax2.plot(x, splay_time, marker='x', color='purple', linestyle='--', label='Tempo Splay')
     
     # Configura o segundo eixo
     ax2.set_ylabel('Tempo (ms)')  # Rótulo do eixo Y direito
@@ -58,3 +58,4 @@ def plot_cache_lines(title, cargas, lru_linked_list_data, splay_tree_data):
     
     # Escreve o conteúdo do PDF no buffer de saída padrão
     sys.stdout.buffer.write(buf.getvalue())
+
