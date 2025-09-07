@@ -30,21 +30,19 @@ public class LRUSplay{
 			get(v);	
 			return;
 		}
-		else{
-			if(isFull()){
-				checaContMenor(); 
-				ArvoreSplay.Node node = this.timeMap.get(this.contMenor);
-				if(node != null){
-					splay.remove(node);
-					this.cacheMap.remove(node.value);
-					this.timeMap.remove(this.contMenor);
-				}
-				checaContMenor();
+		if(isFull()){
+			checaContMenor(); 
+			ArvoreSplay.Node node = this.timeMap.get(this.contMenor);
+			if(node != null){
+				splay.remove(node);
+				this.cacheMap.remove(node.value);
+				this.timeMap.remove(this.contMenor);
 			}
-			ArvoreSplay.Node newNode = splay.add(v, this.contGlobal);
-			this.cacheMap.put(v,newNode);
-			this.timeMap.put(this.contGlobal++,newNode);
+			checaContMenor();
 		}
+		ArvoreSplay.Node newNode = splay.add(v, this.contGlobal);
+		this.cacheMap.put(v,newNode);
+		this.timeMap.put(this.contGlobal++,newNode);
 	}
 
 	public void checaContMenor(){
@@ -67,11 +65,12 @@ public class LRUSplay{
 		return this.timeMap.get(this.contGlobal-1).value;
 	}
 
-	public int getLRU(){
-		if(this.timeMap.isEmpty()) return -1;
-		checaContMenor();
-		return this.timeMap.get(this.contMenor).value;
-	}
+	public int getLRU() {
+        if (timeMap.isEmpty()) return -1;
+        checaContMenor();
+        ArvoreSplay.Node node = timeMap.get(contMenor);
+        return node != null ? node.value : -1;
+    }
 
 	public int size(){
 		return splay.size();
