@@ -10,10 +10,10 @@ public class Main {
         int[] cargas = {1000, 35000, 70000, 100000, 350000, 700000, 1000000, 2500000, 3500000, 5000000};
 
         executarTesteInsercaoCacheNaoCheio(cargasLimitadas);
-        //executarTesteInsercaoCacheCheio(cargas);
-        //executarTesteInsercaoRepetidos(cargas);
-	//executarTesteInsercaoOrdenada(cargas);
-        //executarTestesDeBusca(cargasLimitadas);
+        executarTesteInsercaoCacheCheio(cargas);
+        executarTesteInsercaoRepetidos(cargas);
+	executarTesteInsercaoOrdenada(cargas);
+        executarTestesDeBusca(cargasLimitadas);
     }
 
     private static void executarTesteInsercaoCacheNaoCheio(int[] cargas) {
@@ -22,17 +22,19 @@ public class Main {
             ArrayList<Integer> elementos = lerArquivo("cargas/saida.txt", carga);
 
             for (int j = 0; j < NUM_REPETICOES; j++) {
-                LRUSplay tree = new LRUSplay(carga);
+                //LRUSplay tree = new LRUSplay(carga);
+		LRUCache linked = new LRUCache(carga);
                 long inicio = System.nanoTime();
                 for (int numero : elementos) {
-                    tree.add(numero);
+                    //tree.add(numero);
+		    linked.put(numero, numero);
                 }
                 long fim = System.nanoTime();
                 soma += (fim - inicio);
             }
 
             long media = soma / NUM_REPETICOES;
-            gravarResultado("resultadosTestes/insercaoCacheNaoCheioSplay.txt", media);
+            gravarResultado("resultadosTestes/insercaoCacheNaoCheioLinked.txt", media);
             System.out.println("Carga " + carga + " concluída.");
         }
     }
@@ -44,17 +46,19 @@ public class Main {
             ArrayList<Integer> elementos = lerArquivo("cargas/saida.txt", carga);
 
             for (int j = 0; j < NUM_REPETICOES; j++) {
-                LRUSplay tree = new LRUSplay(capacidadeCache);
+                //LRUSplay tree = new LRUSplay(capacidadeCache);
+		LRUCache linked = new LRUCache(capacidadeCache);
                 long inicio = System.nanoTime();
                 for (int numero : elementos) {
-                    tree.add(numero);
+                    //tree.add(numero);
+		    linked.put(numero, numero);
                 }
                 long fim = System.nanoTime();
                 soma += (fim - inicio);
             }
 
             long media = soma / NUM_REPETICOES;
-            gravarResultado("resultadosTestes/insercaoCacheCheioSplay.txt", media);
+            gravarResultado("resultadosTestes/insercaoCacheCheioLinked.txt", media);
             System.out.println("Carga " + carga + " concluída.");
         }
     }
@@ -73,16 +77,19 @@ public class Main {
             int qtdRepetidos = carga - qtdInicial; 
 
             for (int j = 0; j < NUM_REPETICOES; j++) {
-                LRUSplay tree = new LRUSplay(capacidadeCache);
+                //LRUSplay tree = new LRUSplay(capacidadeCache);
+		LRUCache linked = new LRUCache(capacidadeCache);
                 long inicio = System.nanoTime();
 
                 for (int i = 0; i < qtdInicial; i++) {
-                    tree.add(elementos.get(i));
+                    //tree.add(elementos.get(i));
+		    linked.put(elementos.get(i),elementos.get(i));
                 }
 
                 for (int r = 0; r < qtdRepetidos; r++) {
                     int repetido = elementos.get(rand.nextInt(qtdInicial));
-                    tree.add(repetido);
+                    //tree.add(repetido);
+		    linked.put(repetido,repetido);
                 }
 
                 long fim = System.nanoTime();
@@ -90,7 +97,7 @@ public class Main {
             }
 
             long media = soma / NUM_REPETICOES;
-            gravarResultado("resultadosTestes/insercaoRepetidosSplay.txt", media);
+            gravarResultado("resultadosTestes/insercaoRepetidosLinked.txt", media);
             System.out.println("Carga " + carga + " (inserção com repetidos) concluída.");
         }
     }
@@ -104,17 +111,19 @@ public class Main {
             elementos.sort(Integer::compareTo);
 
             for (int j = 0; j < NUM_REPETICOES; j++) {
-                LRUSplay tree = new LRUSplay(capacidadeCache);
+                //LRUSplay tree = new LRUSplay(capacidadeCache);
+		LRUCache linked = new LRUCache(capacidadeCache);
                 long inicio = System.nanoTime();
                 for (int numero : elementos) {
-                    tree.add(numero);
+                    //tree.add(numero);
+		    linked.put(numero,numero);
                 }
                 long fim = System.nanoTime();
                 soma += (fim - inicio);
             }
 
             long media = soma / NUM_REPETICOES;
-            gravarResultado("resultadosTestes/insercaoOrdenadaSplay.txt", media);
+            gravarResultado("resultadosTestes/insercaoOrdenadaLinked.txt", media);
             System.out.println("Carga " + carga + " (inserção ordenada) concluída.");
         }
     }
@@ -137,49 +146,75 @@ public class Main {
             double[] probs = calcularProbabilidadesZipf(n, 1.0);
 
             for (int j = 0; j < NUM_REPETICOES; j++) {
-                LRUSplay tree = new LRUSplay(carga);
-                for (int numero : elementos) tree.add(numero);
+                //LRUSplay tree = new LRUSplay(carga);
+		LRUCache linked = new LRUCache(carga);
+                for (int numero : elementos){ 
+			//tree.add(numero);
+			linked.put(numero,numero);
+		}
 
                 long inicio = System.nanoTime();
-                tree.get(primeiroNum);
+                //tree.get(primeiroNum);
+		linked.get(primeiroNum);
                 long fim = System.nanoTime();
                 somaPresente += (fim - inicio);
             }
 
             for (int j = 0; j < NUM_REPETICOES; j++) {
-                LRUSplay tree = new LRUSplay(carga);
-                for (int numero : elementos) tree.add(numero);
+                //LRUSplay tree = new LRUSplay(carga);
+		LRUCache linked = new LRUCache(carga);
+                for (int numero : elementos){ 
+			//tree.add(numero);
+			linked.put(numero,numero);
+		}
 
                 long inicio = System.nanoTime();
-                tree.get(numInexistente);
+                //tree.get(numInexistente);
+		linked.get(numInexistente);
                 long fim = System.nanoTime();
                 somaAusente += (fim - inicio);
             }
 
             for (int j = 0; j < NUM_REPETICOES; j++) {
-                LRUSplay tree = new LRUSplay(carga);
-                for (int numero : elementos) tree.add(numero);
+                //LRUSplay tree = new LRUSplay(carga);
+		LRUCache linked = new LRUCache(carga);
+                for (int numero : elementos){ 
+			//tree.add(numero);
+			linked.put(numero,numero);
+		}
 
                 int elementoAleatorio = elementos.get(rand.nextInt(elementos.size()));
                 long inicio = System.nanoTime();
-                tree.get(elementoAleatorio);
+                //tree.get(elementoAleatorio);
+		linked.get(elementoAleatorio);
                 long fim = System.nanoTime();
                 somaUniforme += (fim - inicio);
             }
 
             for (int j = 0; j < NUM_REPETICOES; j++) {
-                LRUSplay tree = new LRUSplay(carga);
-                for (int numero : elementos) tree.add(numero);
+                //LRUSplay tree = new LRUSplay(carga);
+		LRUCache linked = new LRUCache(carga);
+                for (int numero : elementos){
+		       	//tree.add(numero);
+			linked.put(numero,numero);
+		}
 
                 long inicio = System.nanoTime();
-                for (int numero : elementos) tree.get(numero);
+                for (int numero : elementos){ 
+			//tree.get(numero);
+			linked.get(numero);
+		}
                 long fim = System.nanoTime();
                 somaScan += (fim - inicio);
             }
 
             for (int j = 0; j < NUM_REPETICOES; j++) {
-                LRUSplay tree = new LRUSplay(carga);
-                for (int numero : elementos) tree.add(numero);
+                //LRUSplay tree = new LRUSplay(carga);
+		LRUCache linked = new LRUCache(carga);
+                for (int numero : elementos){ 
+			//tree.add(numero);
+			linked.put(numero,numero);
+		}
 
                 long inicio = System.nanoTime();
                 for (int acesso = 0; acesso < n; acesso++) {
@@ -188,7 +223,8 @@ public class Main {
                     for (int k = 0; k < n; k++) {
                         acumulado += probs[k];
                         if (r <= acumulado) {
-                            tree.get(elementos.get(k));
+                            //tree.get(elementos.get(k));
+			    linked.get(elementos.get(k));
                             break;
                         }
                     }
@@ -197,11 +233,11 @@ public class Main {
                 somaZipf += (fim - inicio);
             }
 
-            gravarResultado("resultadosTestes/buscaPresenteSplay.txt", somaPresente / NUM_REPETICOES);
-            gravarResultado("resultadosTestes/buscaNaoPresenteSplay.txt", somaAusente / NUM_REPETICOES);
-            gravarResultado("resultadosTestes/buscaUniformeSplay.txt", somaUniforme / NUM_REPETICOES);
-            gravarResultado("resultadosTestes/buscaScanSplay.txt", somaScan / NUM_REPETICOES);
-            gravarResultado("resultadosTestes/buscaZipfSplay.txt", somaZipf / NUM_REPETICOES);
+            gravarResultado("resultadosTestes/buscaPresenteLinked.txt", somaPresente / NUM_REPETICOES);
+            gravarResultado("resultadosTestes/buscaNaoPresenteLinked.txt", somaAusente / NUM_REPETICOES);
+            gravarResultado("resultadosTestes/buscaUniformeLinked.txt", somaUniforme / NUM_REPETICOES);
+            gravarResultado("resultadosTestes/buscaScanLinked.txt", somaScan / NUM_REPETICOES);
+            gravarResultado("resultadosTestes/buscaZipfLinked.txt", somaZipf / NUM_REPETICOES);
 
             System.out.println("Carga " + carga + " concluída.");
         }
