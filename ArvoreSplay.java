@@ -16,8 +16,8 @@ public class ArvoreSplay{
 		}
 
 		Node aux = this.root;
-		while(aux != null){
-			if(newNode.value < aux.value){
+		while(true){
+			if(v < aux.value){
 				if(aux.left == null){
 					aux.left = newNode;
 					newNode.parent = aux;
@@ -35,13 +35,12 @@ public class ArvoreSplay{
 				}else aux = aux.right;
 			}
 		}
-		return null;
 	}
 
 
 	 public Node remove(Node node){
+		if(node == null) return null;
 		moveToRoot(node);
-		Node removed = this.root;
 
 		Node leftSub = this.root.left;
 		Node rightSub = this.root.right;
@@ -57,66 +56,50 @@ public class ArvoreSplay{
         	    	this.root.right = rightSub;
 			if(rightSub != null) rightSub.parent = this.root;
     		}
+
+		node.left = null;
+		node.right = null;
+		node.parent = null;
+
 		this.size--;
-		return removed;
+		return node;
         }
 
 	public Node max(){
-		if(isEmpty()) return null;
-		else return max(this.root);
+		return max(this.root);
 	}
 	private Node max(Node node){
-		if(node.right == null) return node;
-		else return max(node.right);
+		if(node == null) return null;
+		while(node.right != null) node = node.right;
+		return node;
 	}
 
-	public void moveToRoot(Node node){
-		if(node == null || node == this.root) return;
-			
-		while(node != this.root){
-			if (zig(node)) {
-            			if (node.parent.right == node) {
-                			rot_esq(node.parent);
-            			}else {
-                			rot_dir(node.parent);
-            			}
-        		}else if (zigZigDir(node)) {
-            			rot_dir(node.parent.parent);
-            			rot_dir(node.parent);
-        		}else if (zigZigEsq(node)) {
-            			rot_esq(node.parent.parent);
-            			rot_esq(node.parent);
-        		}else if (zigZagDir(node)) {
-            			rot_esq(node.parent);
-            			rot_dir(node.parent);
-        		}else if (zigZagEsq(node)) {
-            			rot_dir(node.parent);
-            			rot_esq(node.parent);
-        		}else {
-            			return;
-       		 	}
-		}
-	}
+	public void moveToRoot(Node node) {
+        if (node == null || node == this.root) return;
 
-	private boolean zig(Node node){
-		return node.parent.parent == null;
-	}
-
-	private boolean zigZigDir(Node node){
-		return node.parent.parent.left == node.parent && node.parent.left == node;
-	}
-	
-	private boolean zigZigEsq(Node node){
-		return node.parent.parent.right == node.parent && node.parent.right == node;
-	}
-
-	private boolean zigZagEsq(Node node){
-		return node.parent.parent.right == node.parent && node.parent.left == node;
-	}
-
-	private boolean zigZagDir(Node node){
-		return node.parent.parent.left == node.parent && node.parent.right == node;
-	}
+        while (node != root) {
+            if (node.parent == root) {
+                if (node.parent.left == node) rot_dir(node.parent);
+                else rot_esq(node.parent);
+            } else {
+                Node p = node.parent;
+                Node g = p.parent;
+                if (g.left == p && p.left == node) {
+                    rot_dir(g);
+                    rot_dir(p);
+                } else if (g.right == p && p.right == node) {
+                    rot_esq(g);
+                    rot_esq(p);
+                } else if (g.left == p && p.right == node) {
+                    rot_esq(p);
+                    rot_dir(g);
+                } else if (g.right == p && p.left == node) {
+                    rot_dir(p);
+                    rot_esq(g);
+                }
+            }
+        }
+    }
 
 	public Node rot_esq(Node node){
 		Node y = node.right;
