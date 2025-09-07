@@ -21,7 +21,7 @@ public class Main {
             ArrayList<Integer> elementos = lerArquivo("cargas/saida.txt", carga);
 
             for (int j = 0; j < NUM_REPETICOES; j++) {
-                ArvoreSplay tree = new ArvoreSplay(carga);
+                LRUSplay tree = new LRUSplay(carga);
                 long inicio = System.nanoTime();
                 for (int numero : elementos) {
                     tree.add(numero);
@@ -43,7 +43,7 @@ public class Main {
             ArrayList<Integer> elementos = lerArquivo("cargas/saida.txt", carga);
 
             for (int j = 0; j < NUM_REPETICOES; j++) {
-                ArvoreSplay tree = new ArvoreSplay(capacidadeCache);
+                LRUSplay tree = new LRUSplay(capacidadeCache);
                 long inicio = System.nanoTime();
                 for (int numero : elementos) {
                     tree.add(numero);
@@ -71,7 +71,7 @@ public class Main {
         int qtdRepetidos = carga - qtdInicial; 
 
         for (int j = 0; j < NUM_REPETICOES; j++) {
-            ArvoreSplay tree = new ArvoreSplay(carga);
+            LRUSplay tree = new LRUSplay(carga);
             long inicio = System.nanoTime();
 
             for (int i = 0; i < qtdInicial; i++) {
@@ -111,48 +111,48 @@ public class Main {
         double[] probs = calcularProbabilidadesZipf(n, 1.0);
 
         for (int j = 0; j < NUM_REPETICOES; j++) {
-            ArvoreSplay tree = new ArvoreSplay(carga);
+            LRUSplay tree = new LRUSplay(carga);
             for (int numero : elementos) tree.add(numero);
 
             long inicio = System.nanoTime();
-            tree.search(primeiroNum);
+            tree.get(primeiroNum);
             long fim = System.nanoTime();
             somaPresente += (fim - inicio);
         }
 
         for (int j = 0; j < NUM_REPETICOES; j++) {
-            ArvoreSplay tree = new ArvoreSplay(carga);
+            LRUSplay tree = new LRUSplay(carga);
             for (int numero : elementos) tree.add(numero);
 
             long inicio = System.nanoTime();
-            tree.search(numInexistente);
+            tree.get(numInexistente);
             long fim = System.nanoTime();
             somaAusente += (fim - inicio);
         }
 
         for (int j = 0; j < NUM_REPETICOES; j++) {
-            ArvoreSplay tree = new ArvoreSplay(carga);
+            LRUSplay tree = new LRUSplay(carga);
             for (int numero : elementos) tree.add(numero);
 
             int elementoAleatorio = elementos.get(rand.nextInt(elementos.size()));
             long inicio = System.nanoTime();
-            tree.search(elementoAleatorio);
+            tree.get(elementoAleatorio);
             long fim = System.nanoTime();
             somaUniforme += (fim - inicio);
         }
 
         for (int j = 0; j < NUM_REPETICOES; j++) {
-            ArvoreSplay tree = new ArvoreSplay(carga);
+            LRUSplay tree = new LRUSplay(carga);
             for (int numero : elementos) tree.add(numero);
 
             long inicio = System.nanoTime();
-            for (int numero : elementos) tree.search(numero);
+            for (int numero : elementos) tree.get(numero);
             long fim = System.nanoTime();
             somaScan += (fim - inicio);
         }
 
         for (int j = 0; j < NUM_REPETICOES; j++) {
-            ArvoreSplay tree = new ArvoreSplay(carga);
+            LRUSplay tree = new LRUSplay(carga);
             for (int numero : elementos) tree.add(numero);
 
             long inicio = System.nanoTime();
@@ -162,7 +162,7 @@ public class Main {
                 for (int k = 0; k < n; k++) {
                     acumulado += probs[k];
                     if (r <= acumulado) {
-                        tree.search(elementos.get(k));
+                        tree.get(elementos.get(k));
                         break;
                     }
                 }

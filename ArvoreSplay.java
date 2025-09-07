@@ -1,31 +1,18 @@
 public class ArvoreSplay{
-	private Node root;
+	Node root;
 	private int size;
-	private final int CARGA_MAX;
-
-	public ArvoreSplay(int cargaMaxCache){
-		this.CARGA_MAX = cargaMaxCache;
-	}
 
 	public boolean isEmpty(){
 		return this.root == null;
 	}
 
-	public boolean isFull(){
-		return this.size >= this.CARGA_MAX;
-	}
+	public Node add(int v, long timeStamp){
+		Node newNode = new Node(v, timeStamp);
 
-	public void add(int v){
-		if(isFull()) remove();
-
-		Node node = search(v);
-		if(node == null) add(new Node(v));
-	}
-	private void add(Node newNode){
 		if(isEmpty()){
 			this.root = newNode;
 			this.size++;
-			return;
+			return newNode;
 		}
 
 		Node aux = this.root;
@@ -36,7 +23,7 @@ public class ArvoreSplay{
 					newNode.parent = aux;
 					moveToRoot(newNode);
 					this.size++;
-					return;
+					return newNode;
 				}else aux = aux.left;
 			}else{
 				if(aux.right == null){
@@ -44,40 +31,16 @@ public class ArvoreSplay{
 					newNode.parent = aux;
 					moveToRoot(newNode);
 					this.size++;
-					return;
+					return newNode;
 				}else aux = aux.right;
 			}
 		}
+		return null;
 	}
 
-	public Node search(int v){
-		if(isEmpty()){
-			add(v);
-			return this.root;
-		}
-		Node node = search(this.root, v);
-		if(node == null){
-			add(v);
-			return this.root;
-		}
-		return node;
-	}
-	private Node search(Node node, int v){
-		if(node == null) return null;
 
-		if(v == node.value){
-			moveToRoot(node);
-		       	return node;
-		}
-		else if(v < node.value) return search(node.left,v);
-		else return search(node.right,v);
-	}
-
-	 public Node remove(){
-		if(isEmpty()) return null;
-
-		Node lru = min();
-		moveToRoot(lru);
+	 public Node remove(Node node){
+		moveToRoot(node);
 		Node removed = this.root;
 
 		Node leftSub = this.root.left;
@@ -96,15 +59,6 @@ public class ArvoreSplay{
     		}
 		this.size--;
 		return removed;
-        }
-
-	public Node min(){
-                if(isEmpty()) return null;
-                else return min(this.root);
-        }
-        private Node min(Node node){
-                if(node.left == null) return node;
-                else return min(node.left);
         }
 
 	public Node max(){
@@ -139,7 +93,7 @@ public class ArvoreSplay{
             			rot_dir(node.parent);
             			rot_esq(node.parent);
         		}else {
-            		break;
+            			return;
        		 	}
 		}
 	}
@@ -206,14 +160,20 @@ public class ArvoreSplay{
 		return y;
 	}
 
-private static class Node{
+	public int size(){
+		return this.size;
+	}
+
+class Node{
+	long timeStamp;
         int value;
         Node left;
         Node right;
         Node parent;
 
-        public Node(int v){
+        public Node(int v, long timeStamp){
                	this.value = v;
+		this.timeStamp = timeStamp;
         }
 }
 }
