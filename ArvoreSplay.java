@@ -103,6 +103,7 @@ public class ArvoreSplay{
 }
 	public Node rot_esq(Node node){
 		Node y = node.right;
+		if(y == null) return node;
 		Node ey = y.left;
 		Node parent = node.parent;
 
@@ -124,6 +125,7 @@ public class ArvoreSplay{
 
 	public Node rot_dir(Node node){
 		Node y = node.left;
+		if(y == null) return node;
 		Node dy = y.right;
 		Node parent = node.parent;
 
