@@ -37,29 +37,23 @@ public class ArvoreSplay {
 
         moveToRoot(node);
 
-        Node leftSub = node.left;
-        Node rightSub = node.right;
+        root = merge(node.left, node.right);
+        if (root != null) root.parent = null;
 
-        if (leftSub != null) leftSub.parent = null;
-        if (rightSub != null) rightSub.parent = null;
-
-        if (leftSub == null) {
-            root = rightSub;
-        } else {
-            Node maxLeft = max(leftSub);
-            if (maxLeft != null) {
-                moveToRoot(maxLeft);
-                root.right = rightSub;
-                if (rightSub != null) rightSub.parent = root;
-            }
-        }
-
-        node.left = null;
-        node.right = null;
-        node.parent = null;
-
+        node.left = node.right = node.parent = null;
         size--;
         return node;
+    }
+
+    private Node merge(Node left, Node right) {
+        if (left == null) return right;
+        if (right == null) return left;
+
+        Node maxLeft = max(left);
+        moveToRoot(maxLeft);
+        maxLeft.right = right;
+        right.parent = maxLeft;
+        return maxLeft;
     }
 
     public Node max(Node node) {
@@ -81,7 +75,7 @@ public class ArvoreSplay {
 
             if (g == null) { 
                 if (p.left == node) rotDir(p);
-                else if (p.right == node) rotEsq(p);
+                else rot_Esq(p);
             } else if (g.left == p && p.left == node) {
                 rotDir(g);
                 rotDir(p);
