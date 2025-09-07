@@ -75,32 +75,32 @@ public class ArvoreSplay{
 	}
 
 	public void moveToRoot(Node node) {
-        if (node == null || node == this.root) return;
+    if(node == null || node == root) return;
 
-        while (node != root) {
-            if (node.parent == root) {
-                if (node.parent.left == node) rot_dir(node.parent);
-                else rot_esq(node.parent);
-            } else {
-                Node p = node.parent;
-                Node g = p.parent;
-                if (g.left == p && p.left == node) {
-                    rot_dir(g);
-                    rot_dir(p);
-                } else if (g.right == p && p.right == node) {
-                    rot_esq(g);
-                    rot_esq(p);
-                } else if (g.left == p && p.right == node) {
-                    rot_esq(p);
-                    rot_dir(g);
-                } else if (g.right == p && p.left == node) {
-                    rot_dir(p);
-                    rot_esq(g);
-                }
+    while(node.parent != null) {
+        Node p = node.parent;
+        Node g = p.parent;
+
+        if(g == null) {
+            if(p.left == node) rot_dir(p);
+            else rot_esq(p);
+        } else {
+            if(g.left == p && p.left == node) {
+                rot_dir(g);
+                rot_dir(p);
+            } else if(g.right == p && p.right == node) {
+                rot_esq(g);
+                rot_esq(p);
+            } else if(g.left == p && p.right == node) {
+                rot_esq(p);
+                rot_dir(g);
+            } else if(g.right == p && p.left == node) {
+                rot_dir(p);
+                rot_esq(g);
             }
         }
     }
-
+}
 	public Node rot_esq(Node node){
 		Node y = node.right;
 		Node ey = y.left;
