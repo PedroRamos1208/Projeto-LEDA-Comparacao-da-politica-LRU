@@ -38,32 +38,36 @@ public class ArvoreSplay{
 	}
 
 
-	 public Node remove(Node node){
-		if(node == null) return null;
-		moveToRoot(node);
+	public Node remove(Node node){
+    	if(node == null) return null;
 
-		Node leftSub = this.root.left;
-		Node rightSub = this.root.right;
+    	moveToRoot(node);
 
-		if (leftSub != null) leftSub.parent = null;
-        	if (rightSub != null) rightSub.parent = null;
+    	Node leftSub = node.left;
+    	Node rightSub = node.right;
 
-    		
-		if (leftSub == null) this.root = rightSub;
-	    	else{       
-        		Node maxLeft = max(leftSub);
-				if(maxLeft != null && maxLeft != this.root) moveToRoot(maxLeft);
-        	    this.root.right = rightSub;
-			if(rightSub != null) rightSub.parent = this.root;
-    		}
+    	if(leftSub != null) leftSub.parent = null;
+    	if(rightSub != null) rightSub.parent = null;
 
-		node.left = null;
-		node.right = null;
-		node.parent = null;
+    	if(leftSub == null){
+        	root = rightSub;
+    	} else {
+        	Node maxLeft = max(leftSub);
+        	if(maxLeft != null){
+            	moveToRoot(maxLeft);
+            	root.right = rightSub;
+            	if(rightSub != null) rightSub.parent = root;
+        	}
+    	}
 
-		this.size--;
-		return node;
-        }
+    	node.left = null;
+    	node.right = null;
+    	node.parent = null;
+
+    	size--;
+    	return node;
+	}
+
 
 	public Node max(){
 		return max(this.root);
