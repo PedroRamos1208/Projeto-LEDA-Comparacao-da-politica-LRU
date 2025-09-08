@@ -22,11 +22,11 @@ public class Main {
             ArrayList<Integer> elementos = lerArquivo("cargas/saida.txt", carga);
 
             for (int j = 0; j < NUM_REPETICOES; j++) {
-                //LRUSplay tree = new LRUSplay(carga);
+                LRUSplay tree = new LRUSplay(carga);
 		LRUCache linked = new LRUCache(carga);
                 long inicio = System.nanoTime();
                 for (int numero : elementos) {
-                    //tree.add(numero);
+                    tree.add(numero);
 		    linked.put(numero, numero);
                 }
                 long fim = System.nanoTime();
@@ -46,11 +46,11 @@ public class Main {
             ArrayList<Integer> elementos = lerArquivo("cargas/saida.txt", carga);
 
             for (int j = 0; j < NUM_REPETICOES; j++) {
-                //LRUSplay tree = new LRUSplay(capacidadeCache);
+                LRUSplay tree = new LRUSplay(capacidadeCache);
 		LRUCache linked = new LRUCache(capacidadeCache);
                 long inicio = System.nanoTime();
                 for (int numero : elementos) {
-                    //tree.add(numero);
+                    tree.add(numero);
 		    linked.put(numero, numero);
                 }
                 long fim = System.nanoTime();
@@ -77,18 +77,18 @@ public class Main {
             int qtdRepetidos = carga - qtdInicial; 
 
             for (int j = 0; j < NUM_REPETICOES; j++) {
-                //LRUSplay tree = new LRUSplay(capacidadeCache);
+                LRUSplay tree = new LRUSplay(capacidadeCache);
 		LRUCache linked = new LRUCache(capacidadeCache);
                 long inicio = System.nanoTime();
 
                 for (int i = 0; i < qtdInicial; i++) {
-                    //tree.add(elementos.get(i));
+                    tree.add(elementos.get(i));
 		    linked.put(elementos.get(i),elementos.get(i));
                 }
 
                 for (int r = 0; r < qtdRepetidos; r++) {
                     int repetido = elementos.get(rand.nextInt(qtdInicial));
-                    //tree.add(repetido);
+                    tree.add(repetido);
 		    linked.put(repetido,repetido);
                 }
 
@@ -111,11 +111,11 @@ public class Main {
             elementos.sort(Integer::compareTo);
 
             for (int j = 0; j < NUM_REPETICOES; j++) {
-                //LRUSplay tree = new LRUSplay(capacidadeCache);
+                LRUSplay tree = new LRUSplay(capacidadeCache);
 		LRUCache linked = new LRUCache(capacidadeCache);
                 long inicio = System.nanoTime();
                 for (int numero : elementos) {
-                    //tree.add(numero);
+                    tree.add(numero);
 		    linked.put(numero,numero);
                 }
                 long fim = System.nanoTime();
@@ -146,62 +146,62 @@ public class Main {
             double[] probs = calcularProbabilidadesZipf(n, 1.0);
 
             for (int j = 0; j < NUM_REPETICOES; j++) {
-                //LRUSplay tree = new LRUSplay(carga);
+                LRUSplay tree = new LRUSplay(carga);
 		LRUCache linked = new LRUCache(carga);
                 for (int numero : elementos){ 
-			//tree.add(numero);
+			tree.add(numero);
 			linked.put(numero,numero);
 		}
 
                 long inicio = System.nanoTime();
-                //tree.get(primeiroNum);
+                tree.get(primeiroNum);
 		linked.get(primeiroNum);
                 long fim = System.nanoTime();
                 somaPresente += (fim - inicio);
             }
 
             for (int j = 0; j < NUM_REPETICOES; j++) {
-                //LRUSplay tree = new LRUSplay(carga);
+                LRUSplay tree = new LRUSplay(carga);
 		LRUCache linked = new LRUCache(carga);
                 for (int numero : elementos){ 
-			//tree.add(numero);
+			tree.add(numero);
 			linked.put(numero,numero);
 		}
 
                 long inicio = System.nanoTime();
-                //tree.get(numInexistente);
+                tree.get(numInexistente);
 		linked.get(numInexistente);
                 long fim = System.nanoTime();
                 somaAusente += (fim - inicio);
             }
 
             for (int j = 0; j < NUM_REPETICOES; j++) {
-                //LRUSplay tree = new LRUSplay(carga);
+                LRUSplay tree = new LRUSplay(carga);
 		LRUCache linked = new LRUCache(carga);
                 for (int numero : elementos){ 
-			//tree.add(numero);
+			tree.add(numero);
 			linked.put(numero,numero);
 		}
 
                 int elementoAleatorio = elementos.get(rand.nextInt(elementos.size()));
                 long inicio = System.nanoTime();
-                //tree.get(elementoAleatorio);
+                tree.get(elementoAleatorio);
 		linked.get(elementoAleatorio);
                 long fim = System.nanoTime();
                 somaUniforme += (fim - inicio);
             }
 
             for (int j = 0; j < NUM_REPETICOES; j++) {
-                //LRUSplay tree = new LRUSplay(carga);
+                LRUSplay tree = new LRUSplay(carga);
 		LRUCache linked = new LRUCache(carga);
                 for (int numero : elementos){
-		       	//tree.add(numero);
+		       	tree.add(numero);
 			linked.put(numero,numero);
 		}
 
                 long inicio = System.nanoTime();
                 for (int numero : elementos){ 
-			//tree.get(numero);
+			tree.get(numero);
 			linked.get(numero);
 		}
                 long fim = System.nanoTime();
@@ -209,10 +209,10 @@ public class Main {
             }
 
             for (int j = 0; j < NUM_REPETICOES; j++) {
-                //LRUSplay tree = new LRUSplay(carga);
+                LRUSplay tree = new LRUSplay(carga);
 		LRUCache linked = new LRUCache(carga);
                 for (int numero : elementos){ 
-			//tree.add(numero);
+			tree.add(numero);
 			linked.put(numero,numero);
 		}
 
@@ -223,7 +223,7 @@ public class Main {
                     for (int k = 0; k < n; k++) {
                         acumulado += probs[k];
                         if (r <= acumulado) {
-                            //tree.get(elementos.get(k));
+                            tree.get(elementos.get(k));
 			    linked.get(elementos.get(k));
                             break;
                         }
