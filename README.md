@@ -1,3 +1,5 @@
+Documentação: [Desempenho Comparativo de Algoritmos LRU: Splay Tree vs. HashMap + Doubly LinkedList ](https://docs.google.com/document/d/1We2hKwkE3jNkjIwRwwa8mKynxAmhCpwlJa7rPfpjftg/edit?tab=t.0)
+
 Plano de Experimento – LRU com Árvore Splay vs LinkedList + HashMap
  22, Agosto, 2025
 
@@ -79,5 +81,3 @@ Análise das causas dos resultados, com base na complexidade das estruturas.
 
 6. Conclusão
 Este plano de experimento fornecerá base sólida para avaliar a eficiência do LRU implementado com Árvore Splay e com LinkedList + HashMap, destacando vantagens, limitações e cenários ideais para cada abordagem em ambientes que demandam alta performance.
-
-Documentação: [Desempenho Comparativo de Algoritmos LRU: Splay Tree vs. HashMap + Doubly LinkedList ](https://docs.google.com/document/d/1We2hKwkE3jNkjIwRwwa8mKynxAmhCpwlJa7rPfpjftg/edit?tab=t.0)
